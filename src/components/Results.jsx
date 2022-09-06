@@ -10,17 +10,23 @@ const Results = () => {
   const location = useLocation()
 
   useEffect(() => {
-    getResults('/search/q=Alessandro Parrilla&num=40')
-  }, [])
+    if(searchTerm){
+      if(location.pathname === '/videos'){
+        getResults(`/search/q=${searchTerm} videos`)
+      } else {
+        getResults(`${location.pathname}/q=${searchTerm}&num=40`)
+      }
+    }
+  }, [searchTerm, location.pathname])
 
   if(isLoading) return <Loading />
 
-  // console.log(location.pathname); // /search /news /images /videos
+  // console.log(location.pathname); // /search /news /image /videos
 
   switch (location.pathname) {
     case '/search':
       return (
-        <div className="flex flex-wrap justify-between space-y-6 sm:px-56">
+        <div className="flex flex-wrap justify-between space-y-6 sm:px-48">
           {/* link e title sono destrutturati dal object results.results che sono le due cose che ci servono */}
           {results?.results?.map(({link, title}, index) => (
             <div key={index} className="md:w-2/5 w-full">
@@ -37,8 +43,19 @@ const Results = () => {
         </div>
       )
       break;
-    case '/images':
-      return 'IMAGES';
+    case '/image':
+      return (
+        <div className="flex flex-wrap gap-1 justify-center items-center">
+          {results?.image_results?.map(({image, link: {href, title}}, index) => (
+            <a className='sm:p-3 p-5 w-2/5 md:w-1/5 hover:shadow-lg hover:scale-105 transition ease-in-out' href={href} key={index} target="_blank" rel="noreferrer">
+              <img src={image?.src} alt={title} loading="laxy" className='mx-auto' />
+              <p className='w-36 break-words text-sm mt-2 text-center mx-auto'>
+                {title}
+              </p>
+            </a>
+          ))}  
+        </div>
+      )
       break;
     case '/news':
       return 'NEWS';
