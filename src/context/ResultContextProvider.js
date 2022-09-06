@@ -25,9 +25,15 @@ export const ResultContextProvider = ({ children }) => {
       }
       const response = await axios.request(options)
       const data = await response.data
-      console.log(data);
+      console.log({type, data});
 
-      setResults(data)
+      if(type.includes('/news')){
+        setResults(data.entries) 
+      } else if(type.includes('/image')){
+        setResults(data.image_results) 
+      } else {  //for type.includes('/search')
+        setResults(data.results) 
+      }
     } catch (error) {
       return error.message
     }

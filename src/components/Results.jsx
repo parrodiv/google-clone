@@ -27,8 +27,7 @@ const Results = () => {
     case '/search':
       return (
         <div className="flex flex-wrap justify-between space-y-6 sm:px-48">
-          {/* link e title sono destrutturati dal object results.results che sono le due cose che ci servono */}
-          {results?.results?.map(({link, title}, index) => (
+          {results?.map(({link, title}, index) => (
             <div key={index} className="md:w-2/5 w-full">
               <a href={link} target="_blank" rel="noreferrer">
                 <p className="text-sm">
@@ -46,7 +45,7 @@ const Results = () => {
     case '/image':
       return (
         <div className="flex flex-wrap gap-1 justify-center items-center">
-          {results?.image_results?.map(({image, link: {href, title}}, index) => (
+          {results?.map(({image, link: {href, title}}, index) => (
             <a className='sm:p-3 p-5 w-2/5 md:w-1/5 hover:shadow-lg hover:scale-105 transition ease-in-out' href={href} key={index} target="_blank" rel="noreferrer">
               <img src={image?.src} alt={title} loading="laxy" className='mx-auto' />
               <p className='w-36 break-words text-sm mt-2 text-center mx-auto'>
@@ -58,7 +57,24 @@ const Results = () => {
       )
       break;
     case '/news':
-      return 'NEWS';
+      return (
+        <div className='flex flex-wrap justify-between space-y-6 sm:px-28 items-center'>
+          {results?.map(({ links, id, source, title }) => (
+            <div key={id} className='md:w-2/5 w-full'>
+              <a href={links?.[0].href} target='_blank' rel='noreferrer' className='hover:underline'>
+                <p className='text-lg dark:text-blue-300 text-blue-700'>
+                  {title}
+                </p>
+                <div className="flex gap-4">
+                  <a href={source?.href} target="_blank" rel='noreferrer'>
+                    {source?.href}
+                  </a>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+      )
       break;
     case '/videos':
       return 'VIDEO';
