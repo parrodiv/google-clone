@@ -25,7 +25,7 @@ export const ResultContextProvider = ({ children }) => {
       }
       const response = await axios.request(options)
       const data = await response.data
-
+      console.log(data);
 
       setResults(data)
     } catch (error) {
