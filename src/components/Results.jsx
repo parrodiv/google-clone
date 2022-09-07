@@ -12,7 +12,7 @@ const Results = () => {
   useEffect(() => {
     if(searchTerm){
       if(location.pathname === '/videos'){
-        getResults(`/video/q=${searchTerm}&num=10 videos`)
+        getResults(`/search/q=${searchTerm} videos`)
       } else {
         getResults(`${location.pathname}/q=${searchTerm}&num=40`)
       }
@@ -61,16 +61,21 @@ const Results = () => {
         <div className='flex flex-wrap justify-between space-y-6 sm:px-28 items-center'>
           {results?.map(({ links, id, source, title }) => (
             <div key={id} className='md:w-2/5 w-full'>
-              <a href={links?.[0].href} target='_blank' rel='noreferrer' className='hover:underline'>
+              <a
+                href={links?.[0].href}
+                target='_blank'
+                rel='noreferrer'
+                className='hover:underline'
+              >
                 <p className='text-lg dark:text-blue-300 text-blue-700'>
                   {title}
                 </p>
-                <div className="flex gap-4">
-                  <a href={source?.href} target="_blank" rel='noreferrer'>
-                    {source?.href}
-                  </a>
-                </div>
               </a>
+              <div className='flex gap-4'>
+                <a href={source?.href} target='_blank' rel='noreferrer'>
+                  {source?.href}
+                </a>
+              </div>
             </div>
           ))}
         </div>
@@ -78,7 +83,7 @@ const Results = () => {
       break;
     case '/videos':
       return (
-        <div className='flex flex-wrap justify-center'>
+        <div className='flex flex-wrap justify-center min-h-auto'>
           {results?.map((video, index) => (
             <div key={index} className='p-2'>
               <ReactPlayer url={video?.additional_links?.[0].href} controls width="355px" height="200px" />
