@@ -97,7 +97,7 @@ const Results = () => {
         <div className='flex flex-wrap justify-center min-h-auto'>
           {results?.map((video, index) => (
             <div key={index} className='p-2'>
-              {video?.additional_links?.[0]?.href && (
+              {video?.additional_links?.[0]?.href.match(/youtube\.com/) && (
                 <ReactPlayer
                   url={video?.additional_links?.[0].href}
                   controls
